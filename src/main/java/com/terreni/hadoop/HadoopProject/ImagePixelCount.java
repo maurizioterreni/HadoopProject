@@ -18,7 +18,7 @@ public class ImagePixelCount {
 	
 	public static void main(String[] args) throws Exception{
 	
-		ReadImage.prepareInput("source/images/image-02.jpg");
+		ReadImage.prepareInput("source/images/image-04.jpg");
 		
 		Configuration conf = new Configuration();
 

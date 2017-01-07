@@ -1,5 +1,6 @@
 package com.terreni.hadoop.utils;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -21,10 +22,11 @@ public class ReadImage {
 			image = ImageIO.read(file);
 			for(int x = 0; x < image.getWidth(); x++){
 				for (int y = 0; y < image.getHeight(); y++) {
-					int clr = image.getRGB(x,y); 
-					clr = (clr & 0x00ffffff);
+					Color clr = new Color(image.getRGB(x, y));
 					//System.out.println(Integer.toHexString(clr));
-					colors.add(Integer.toHexString(clr));
+					
+					String hex = String.format("%02x%02x%02x", clr.getRed(), clr.getGreen(), clr.getBlue());
+					colors.add(hex);
 				}
 			}
 
