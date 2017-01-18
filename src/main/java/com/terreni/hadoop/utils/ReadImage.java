@@ -44,7 +44,7 @@ public class ReadImage {
 			
 			int i = 0;
 			for (String item : colors) {
-				String colorName = MapColorName.hexToColorName(item);
+				String colorName = MapColorName.hexToColorName(item , 0);
 				if(colorName == null){
 					colorName = "unknown" + i;
 					i++;
