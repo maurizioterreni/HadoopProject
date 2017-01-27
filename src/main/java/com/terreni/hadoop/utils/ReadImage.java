@@ -14,7 +14,7 @@ import com.terreni.hadoop.HadoopProject.ImagePixelCount;
 
 public class ReadImage {
 
-	private static List<String> getImageColor(String path){
+	public static List<String> getImageColor(String path){
 		List<String> colors = new ArrayList<String>();
 		try {
 			File file= new File(path);
@@ -32,6 +32,7 @@ public class ReadImage {
 
 			//System.out.println(Integer.toHexString(clr));
 		} catch (IOException e) {
+			System.out.println(path);
 			e.printStackTrace();
 		}
 		return colors;
@@ -44,7 +45,7 @@ public class ReadImage {
 			
 			int i = 0;
 			for (String item : colors) {
-				String colorName = MapColorName.hexToColorName(item , 0);
+				String colorName = MapColorName.hexToColorName(item , 1);
 				if(colorName == null){
 					colorName = "unknown" + i;
 					i++;
