@@ -9,12 +9,14 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import com.terreni.hadoop.utils.PairComparator;
+
 public class ImagePixelCount {
 
-	public static String COLOR_IMAGE_PATH = "source/imageColor";
 	public static String ORDER_COUNT_PATH = "source/OutOrder";
 	public static String INPUT_PATH = "source/input";
 	public static String OUTPUT_PATH = "source/output";
+
 
 	public static void main(String[] args) throws Exception{
 
@@ -26,9 +28,6 @@ public class ImagePixelCount {
 		if (fs.exists(new Path(OUTPUT_PATH))) {
             fs.delete(new Path(OUTPUT_PATH), true);
         }
-		if (fs.exists(new Path(COLOR_IMAGE_PATH))){
-			 fs.delete(new Path(COLOR_IMAGE_PATH), true);
-		}
 		if (fs.exists(new Path(ORDER_COUNT_PATH))){
 			 fs.delete(new Path(ORDER_COUNT_PATH), true);
 		}
@@ -55,7 +54,28 @@ public class ImagePixelCount {
 		
 		
 		//Map/Reduce Ordinamento risultati
-		
+		Configuration conf2 = new Configuration();
+
+        Job job2 = Job.getInstance(conf2, "FriendRecom-MR2");
+        job2.setJarByClass(ImagePixelCount.class);
+//      job2.setOutputKeyClass(Text.class);
+//      job2.setOutputValueClass(Text.class);
+
+        job2.setMapOutputKeyClass(IntWritable.class);
+        job2.setMapOutputValueClass(Text.class);
+
+        job2.setMapperClass(OrderMapper.class);
+        job2.setReducerClass(OrderReducer.class);
+        job2.setSortComparatorClass(PairComparator.class);
+
+        FileInputFormat.addInputPath(job2, new Path(ORDER_COUNT_PATH));
+        FileOutputFormat.setOutputPath(job2, new Path(OUTPUT_PATH));
+//      job2.setInputFormatClass(SequenceFileInputFormat.class);
+
+        job2.waitForCompletion(true);
+        
+        
+        fs.delete(new Path(ORDER_COUNT_PATH), true);
 
 	}
 
